@@ -56,7 +56,9 @@ function customerOrder(itemID, qtyNeeded) {
     connection.query("SELECT * FROM products WHERE item_id = " + itemID, function (err, res) {
         if (err) throw err;
         if (qtyNeeded <= res[0].stock_quantity) {
+            // Add total cost to response
             console.log("Thank you for your purchase. Your total is $0.00")
+            //add function to update inventory
             displayInventory();
         }
         else {
