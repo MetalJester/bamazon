@@ -15,12 +15,11 @@ var connection = mysql.createConnection({
 connection.connect(function (err) {
     if (err) throw err;
     // console.log("I'm connected to the database");
-    displayInventory()
 });
 
+displayInventory();
+
 //function to display table of products
-
-
 function displayInventory() {
     connection.query("SELECT * FROM products", function (err, res) {
         if (err) throw err;
@@ -47,7 +46,7 @@ function start() {
         }
     ]).then(function (answer) {
         var customerItem = answer.item;
-        var customerQty = answer.quantity;        
+        var customerQty = answer.quantity;
         customerOrder(customerItem, customerQty);
     })
 }
@@ -57,26 +56,43 @@ function customerOrder(itemID, qtyNeeded) {
         if (err) throw err;
         if (qtyNeeded <= res[0].stock_quantity) {
             connection.query("UPDATE products SET ? WHERE ?", [
-            {
-                stock_quantity: res[0].stock_quantity - qtyNeeded
-            },
-            {
-                item_id: res[0].item_id
-            }
-        ]);
+                {
+                    stock_quantity: res[0].stock_quantity - qtyNeeded
+                },
+                {
+                    item_id: res[0].item_id
+                }
+            ]);
             console.log("Thank you for your purchase. Your total is $" + parseInt(res[0].price * qtyNeeded));
-            displayInventory();
+            tryAgain();
         }
         else {
             console.log("Insufficient quantity; cannot complete your order.");
-            displayInventory();
+            tryAgain();
         };
 
     });
 
 }
 
+function tryAgain() {
+    inquirer.prompt({
+        name: "shop",
+        type: "list",
+        message: "Would you like to make another purchase?",
+        choices: ["YES", "NO"]
+    })
+        .then(function (answer) {
 
+            if (answer.shop === "YES") {
+                displayInventory();
+                
+            }
+            else {
+                connection.end();
+            }
+        });
+}
 
 
 
