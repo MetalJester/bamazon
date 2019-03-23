@@ -63,7 +63,7 @@ function customerOrder(itemID, qtyNeeded) {
                     item_id: res[0].item_id
                 }
             ]);
-            console.log("Thank you for your purchase. Your total is $" + parseInt(res[0].price * qtyNeeded));
+            console.log("Thank you for your purchase. Your total is $" + Number(res[0].price * qtyNeeded));
             tryAgain();
         }
         else {
