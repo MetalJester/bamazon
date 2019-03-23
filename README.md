@@ -8,4 +8,4 @@ The app will then check the quantity you've asked for against the current invent
 
 If there is insufficient inventory then the app will tell you that it cannot complete your transaction. It will then ask if you'd like to make a different purchase. If you choose "YES", the table of available items will be displayed again and you try another purchase. If you select "NO" then the connection will end.
 
-##### Follow this link to watch a demonstration of the app: 
+##### Follow this link to watch a demonstration of the app: https://drive.google.com/file/d/1rysuhR_IHyhID03wnq3OE_gGTqmJsu_E/view
