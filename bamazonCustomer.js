@@ -21,7 +21,7 @@ connection.connect(function (err) {
 //function to display table of products
 
 
-function displayInventory(){
+function displayInventory() {
     connection.query("SELECT * FROM products", function (err, res) {
         if (err) throw err;
         console.log("These products are availabe for purchase.\n");
@@ -47,7 +47,7 @@ function start() {
         }
     ]).then(function (answer) {
         var customerItem = answer.item;
-        var customerQty = answer.quantity;
+        var customerQty = answer.quantity;        
         customerOrder(customerItem, customerQty);
     })
 }
@@ -56,41 +56,34 @@ function customerOrder(itemID, qtyNeeded) {
     connection.query("SELECT * FROM products WHERE item_id = " + itemID, function (err, res) {
         if (err) throw err;
         if (qtyNeeded <= res[0].stock_quantity) {
-            // Add total cost to response
-            console.log("Thank you for your purchase. Your total is $0.00")
-            //add function to update inventory
+            connection.query("UPDATE products SET ? WHERE ?", [
+            {
+                stock_quantity: res[0].stock_quantity - qtyNeeded
+            },
+            {
+                item_id: res[0].item_id
+            }
+        ]);
+            console.log("Thank you for your purchase. Your total is $" + parseInt(res[0].price * qtyNeeded));
             displayInventory();
         }
         else {
             console.log("Insufficient quantity; cannot complete your order.");
             displayInventory();
         };
-        
+
     });
+
 }
 
+// connection.query("UPDATE products SET ? WHERE ?", [{
+//     StockQuantity: res[chosenId].StockQuantity - chosenQuantity
+// }, {
+//     id: res[chosenId].id
+// }], function(err, res) {
+//     //console.log(err);
+//     checkAndBuy2()
 
 
 
 
-
-
-// Prompt for quantitye
-// inquirer
-//         .prompt({
-//             name: "quantity",
-//             type: "input",
-//             message: "Enter quantity of this item you would like to purchase:"
-//         })
-//         .then(function (answer) {
-//             // based on their answer, either call the bid or the post functions
-//             if (answer.quantitu === "POST") {
-//                 postAuction();
-//             }
-//             else if (answer.quantity === "BID") {
-//                 bidAuction();
-//             } else {
-//                 connection.end();
-//             }
-
-//         });
