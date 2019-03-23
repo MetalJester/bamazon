@@ -76,13 +76,7 @@ function customerOrder(itemID, qtyNeeded) {
 
 }
 
-// connection.query("UPDATE products SET ? WHERE ?", [{
-//     StockQuantity: res[chosenId].StockQuantity - chosenQuantity
-// }, {
-//     id: res[chosenId].id
-// }], function(err, res) {
-//     //console.log(err);
-//     checkAndBuy2()
+
 
 
 
